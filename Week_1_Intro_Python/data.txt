@@ -1,0 +1,27 @@
+Olympic medal data for t this exersise was obtained from the open-sourced file
+
+https://raw.githubusercontent.com/the-gamma/thegamma-services/master/data/medals-expanded.csv
+
+retrieved in November 2016, and read into Python using the Pandas library:
+
+import pandas
+allmedals = pd.read_csv('medals-expanded.csv',
+                        names=['Games','Year','Sport','Discipline',
+                               'Athlete','Team','Gender','Event',
+                               'Medal','Gold','Silver','Bronze'],header=1)
+
+The list of games was extracted, sorted, and written to a text file by running
+
+games = list(set(allmedals['Games']))
+games.sort(key=lambda x: x.split()[-1])
+with open('games.txt','w') as w:
+    for game in games:
+        w.write(game + '\n')
+
+The list of gold medals in athletics was written to a text file by running
+
+with open('goldmedals.txt','w') as out:
+    for i,row in allmedals[(medals['Discipline'] == 'Athletics') & (medals['Gold'] == 1)].iterrows():
+        out.write(str(row['Year']) + '\t' + row['Athlete'] + '\t' + row['Team'] + '\t' + row['Event'] + '\n')
+
+A few typos were then corrected manually in games.txt and goldmedals.txt.
